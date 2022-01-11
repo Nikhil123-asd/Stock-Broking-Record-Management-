@@ -20,9 +20,7 @@ void delete_client();
 void update_client_detail();
 void order();
 void order_details();
-//void ledger_balance_calculator();
-//void total_tax_calculator();
-//void total_brokerage_calculator();
+void total_tax_calculator();
 void contract_note();
 void exit_program();
 
@@ -100,7 +98,8 @@ printf("\t\t\tMini Project For Stocks Trading\n");
           delete_client();break;
   case 5: system("CLS");
           update_client_detail();break;
- // case 6: total_tax_calculator();break;
+  case 6: system("CLS");
+          total_tax_calculator();break;
   case 7: system("CLS");
           order();break;
   case 8: system("CLS");
@@ -256,7 +255,9 @@ void update_client_detail()
 		printf("\n\t Error : Cannot open the file!!!");
 		getch();
 	}
-	printf("\n\n\t\t\t Enter Client Id Whose Information You Want To Update\n\n");
+	else
+	{
+	printf("\n\n\t\t\t Enter Client Id Whose Information You Want To Update : ");
 	scanf("%s",clid);
 		
 	while(fread(&det,sizeof(det),1,sb)==1)
@@ -297,7 +298,7 @@ void update_client_detail()
         if(strcmpi(nam,"R")!=0)
         
         { 
-          strcpy(det.name,nam);
+         strcpy(det.name,nam);
 		}
        
 	    printf("\n\t\t\t Updated Client Phone :");
@@ -311,18 +312,18 @@ void update_client_detail()
 	    printf("\n\t\t\t Updated Client E-mail :");
         gets(e_mail);
         
-        if(strcmpi(phon,"R")!=0)
+        if(strcmpi(e_mail,"R")!=0)
        {
-       	strcpy(det.phone,phon);
+       	strcpy(det.email,e_mail);
 	   }
 		
 		printf("\n\t\t\t Updated Client Address :");
         gets(addres);
         
 		
-		if(strcmpi(phon,"R")!=0)
+		if(strcmpi(addres,"R")!=0)
        {
-       	strcpy(det.phone,phon);
+       	strcpy(det.address,addres);
 	   }
 	   
 		printf("\n\t\t\t Updated Client Aadhar Number :");
@@ -330,7 +331,7 @@ void update_client_detail()
         
         if(strcmpi(aadharnumber,"R")!=0)
        {
-       	strcpy(det.aadhar_number,aadharnumber);
+         strcpy(det.aadhar_number,aadharnumber);
 	   }
 		
 		printf("\n\t\t\t Updated Client PAN Number :");
@@ -366,23 +367,27 @@ void update_client_detail()
        {
        	strcpy(det.ifsc_code,ifsccode);
 	   }
-         fseek(sb,-(long)sizeof(det),1);     //            Moves The File Pointer              // 
+        
        
-       fwrite(&det,sizeof(det),1,sb);       //       To Write the New data in the file        // 
-       
-       {
        	system("CLS");
 	    printf("\t\t\t***********Client Account Successfully Updated************\n\n");
 	    getch();
-       }}
+	    
+	   // break;
+       }
 	}
+	
+	   fseek(sb,-(long)sizeof(det),1);     //            Moves The File Pointer              // 
+       
+       fwrite(&det,sizeof(det),1,sb);       //       To Write the New data in the file        // 
+       
     if(flag==0)
 	{
 	  	printf("\n\t Error : Cannot Update the file!!!");	
 	 	
 	}
 	fclose(sb);
-	}
+	}}
 	
 	
 
@@ -450,7 +455,7 @@ void show_all_clients()
 	   {
 	   	if(strcmpi(clid,det.client_id)==0)
 	   	{flag=1;
-	   	 printf("\n\n\n*************** Search Successful Client Found ***************");
+	   	 printf("\n\n\n*************** Search Successful Client Found ***************\n\n");
 	   	 printf("s_no : %s \n",det.s_no);
 	     printf("client_id : %s\n",det.client_id);
 	     printf("name : %s \n",det.name);
@@ -627,12 +632,13 @@ void contract_note()
 	    printf("\n\t\t\t Enter the Client Id : ");
 	    scanf("%s",clid);
 	    
-	    while(fread(&ordet,sizeof(ordet),1,tb)==1 && flag==0)
-	    { if(strcmpi(clid,ordet.client_i)==0) 
-		{ flag=1;
-		system("CLS");
-	    printf("\n\t\t\t ################### Contract Note ################### \n\n");
-		printf("\n\n=================================================================\n\n");
+	    while(fread(&ordet,sizeof(ordet),1,tb)==1)
+	    { 
+		if(strcmpi(clid,ordet.client_i)==0) 
+		  { flag=1;
+		    system("CLS");
+	        printf("\n\t\t\t ################### Contract Note ################### \n\n");
+	    	printf("\n\n=================================================================\n\n");
 		    
 		    printf("\n\n\t\t\tOrder Date and Time :%s",ordet.Date_And_Time);
 		    
@@ -652,7 +658,7 @@ void contract_note()
 	        
 	    printf("\n\n=================================================================\n\n");  
 		getch();  
-	    }
+	    }}
 	    if(flag==0)
 	    {
 	    printf("\n\n\t\t\t*************** OOPS!!!! Contract Note Not Found :/ ***************");	
@@ -662,7 +668,7 @@ void contract_note()
 	}
 	      fclose(tb);
 }
-    }	
+    ppsppppspspp	
 	    
 	    
 	    
@@ -705,6 +711,47 @@ void order_details()
 	getch();
     fclose(tb);
     }
+	
+	
+}
+
+
+void total_tax_calculator()
+{   fflush(stdin);
+    float Amount;
+    float base_charge_per_strip=20.00;        //   For Other Segments Other than equity Delivery Order      //
+   
+    
+    
+    printf("\t\t\t##########################################################\n\n");
+	printf("\t\t\t******************* Tax Calculator *******************\n\n");
+	printf("\t\t\t##########################################################\n\n\n\n\n\n\n\n");
+	
+	printf("\t\t\t Enter the Amount of Order : ");
+	scanf("%f",&Amount);
+    
+    float brokerage=Amount*0.005;                 //                0.5% of the Total Amount                    //
+    float gst=brokerage*0.09;                  //                9% of the Brokerage Amount                    //
+    
+    float sgst=gst;                            //                9% of the Brokerage Amount                    //    
+	
+	float Exchange_Tax=Amount*0.000035;      //                0.0035% of the Total Amount                    //  
+	
+	float SEBI_Turnover_Fees=Amount*0.0000015;   //                0.00015% of the Total Amount                    //
+	
+	float Total_tax;
+	
+	Total_tax=brokerage+gst+sgst+Exchange_Tax+SEBI_Turnover_Fees;
+    
+    
+    printf("\n\n\t\t\tYOUR TOTAL TAX IS : %.5f",Total_tax);	
+	
+	
+	
+	
+	
+	getch();
+	
 	
 	
 }
