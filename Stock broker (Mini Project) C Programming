@@ -142,29 +142,27 @@ char pass[20],password[20]="pps";
 
 void loading()
 { int i=0;
-for(i=1;i<=100;i++)
-{
+for(i=1;i<=10;i++)
+{   sleep(1);
     system("CLS");
     printf("\n\n\n\n\t\t\t\t\tloading...........");
     
-    printf("\n\n\n\n\n\t\t\t\t\t %d percent complete",i);
-    if(i>=1 && i<=30)
+    printf("\n\n\n\n\n\t\t\t\t\t %d percent complete",10*i);
+    if(i>=1 && i<=3)
    {
    printf("\n\n\n\t\t\t\t\t\t \\\// \n");
    printf("\n\n\t\t\t\t .............Hold on Buddy...........") ;
    }
-   else if(i>30 && i<=70)
+   else if(i>3 && i<=7)
    {
 	printf("\n\n\n\t\t\t\t\t\t || ");
    printf("\n\n\n\t\t\t\t .........Reaching To Stock Menu.......") ;
    }
-   else if(i>70)
+   else if(i>7)
    {  
    printf("\n\n\n\t\t\t\t\t\t //\\ \n");
    printf("\n\n\n\t\t\t Just Seconds Away From The World of Stocks & Trading.....\n\n ") ;
    } 
-   //sleep(1);
-   
 }
 }
 
@@ -668,7 +666,7 @@ void contract_note()
 	}
 	      fclose(tb);
 }
-  	
+   	
 	    
 	    
 	    
